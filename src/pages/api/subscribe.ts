@@ -1,8 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
+import { faunadb } from "../../services/faunadb";
+import { query as q } from 'faunadb';
 import { stripe } from "../../services/stripe";
 
-export default async function handler (request: NextApiRequest, response: NextApiResponse) {
+type User = {
+  ref: {
+    id: string;
+  }
+  data: {
+    stripe_customer_id: string;
+  } 
+}
+
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   if (request.method === 'POST') {
 
     const session = await getSession({req: request});
@@ -10,11 +21,39 @@ export default async function handler (request: NextApiRequest, response: NextAp
     if (!session || !session.user || !session.user.email) {
       return response.status(401).end('Unauthorized');
     }
-    const stripeCustomer = await stripe.customers.create({
-      email: session.user.email,
-    });
+    
+
+    const user = await faunadb.query<User>(
+      q.Get(
+        q.Match(
+          q.Index('user_email'), q.Casefold(session.user.email)
+        )
+      )
+    );
+        
+    let customerId = user.data.stripe_customer_id;
+
+    if (!customerId) {
+      
+      const stripeCustomer = await stripe.customers.create({
+        email: session.user.email,
+      });
+
+      await faunadb.query(
+        q.Update(
+          q.Ref(q.Collection('users'), user.ref.id),
+          {
+            data: {
+              stripe_customer_id: stripeCustomer.id
+            }
+          }
+        )
+      )
+      customerId = stripeCustomer.id;
+    }
+
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
-      customer: stripeCustomer.id,
+      customer: customerId,
       payment_method_types: ['card'],
       billing_address_collection: 'required',
       line_items: [
