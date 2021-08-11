@@ -16,6 +16,7 @@
     "next": "11.0.1",
     "next-auth": "^3.27.3",
     "node-jose-tools": "^1.6.28",
+    "prismic-dom": "^2.2.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
@@ -23,6 +24,7 @@
     "stripe": "^8.167.0"
   },
   "devDependencies": {
+    "@types/prismic-dom": "^2.1.1",
     "@types/react": "17.0.15",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
