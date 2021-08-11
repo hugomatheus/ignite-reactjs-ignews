@@ -2,10 +2,12 @@ import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
+import { format } from 'date-fns';
 
 import Head from 'next/head';
 
 import styles from './styles.module.scss';
+import { ptBR } from 'date-fns/locale';
 
 type Post = {
   id: string;
@@ -58,11 +60,12 @@ export const getStaticProps: GetStaticProps = async () => {
       slug: post.uid,
       title: RichText.asText(post.data.title),
       excerpt: post.data.content.find((content: { type: string; }) => content.type === 'paragraph')?.text ?? '',
-      updatedAt: post.last_publication_date ? new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
-      }) : ''
+      updatedAt: post.last_publication_date ? format(new Date(post.last_publication_date), "dd 'de' MMMM 'de' yyyy", {locale: ptBR}) : '',
+      // updatedAt: post.last_publication_date ? new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+      //   day: '2-digit',
+      //   month: 'long',
+      //   year: 'numeric'
+      // }) : ''
     };
   });
   return { 
