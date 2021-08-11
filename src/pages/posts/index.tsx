@@ -61,6 +61,7 @@ export const getStaticProps: GetStaticProps = async () => {
       title: RichText.asText(post.data.title),
       excerpt: post.data.content.find((content: { type: string; }) => content.type === 'paragraph')?.text ?? '',
       updatedAt: post.last_publication_date ? format(new Date(post.last_publication_date), "dd 'de' MMMM 'de' yyyy", {locale: ptBR}) : '',
+      // funciona somente com node 14+
       // updatedAt: post.last_publication_date ? new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
       //   day: '2-digit',
       //   month: 'long',
