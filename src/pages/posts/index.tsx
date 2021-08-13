@@ -8,6 +8,7 @@ import Head from 'next/head';
 
 import styles from './styles.module.scss';
 import { ptBR } from 'date-fns/locale';
+import Link from 'next/link';
 
 type Post = {
   id: string;
@@ -30,13 +31,15 @@ export default function Posts({posts}: PostsProps) {
       <main className={styles.container}>
         <div className={styles.posts}>
           {posts.map(post => (
-            <a key={post.id} href="#">
-             <time>{post.updatedAt}</time>
-             <strong>{post.title}</strong>
-             <p>
-              {post.excerpt}
-             </p>
-            </a>
+            <Link key={post.id} href={`/posts/${post.id}`}>
+              <a>
+                <time>{post.updatedAt}</time>
+                <strong>{post.title}</strong>
+                <p>
+                 {post.excerpt}
+                </p>
+              </a>
+            </Link>
           ))}
         </div>
       </main>
