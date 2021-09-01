@@ -10,5 +10,5 @@
 ## ifconfig -a
 ## procurar as informações do docker e verificar o ip 
 ## Exemplo: 
-## docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  
-## inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+## docker0: flags=1234<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  
+## inet 172.0.0.0  netmask 255.255.0.0  broadcast 172.0.0.0
