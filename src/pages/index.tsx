@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from './home.module.scss';
-import imgAvatar from '../../../ignews/public/images/avatar.svg'; 
+import imgAvatar from '../../public/images/avatar.svg'; 
 import { SubscribeButton } from '../components/SubscribeButton';
 import { GetStaticProps } from 'next';
 import { stripe } from '../services/stripe';

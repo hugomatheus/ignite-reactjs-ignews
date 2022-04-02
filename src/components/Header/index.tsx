@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logo from '../../../../ignews/public/images/logo.svg';
+import logo from '../../../public/images/logo.svg';
 import ActiveLink from './ActiveLink';
 import { SignInButton } from './SignInButton';
 import styles from './styles.module.scss';
